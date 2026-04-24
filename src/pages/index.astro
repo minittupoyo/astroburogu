@@ -1,31 +1,45 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../layouts/Layout.astro';
-import BlogPost from '@/components/BlogPost.astro';
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import BlogPost from "@/components/BlogPost.astro";
+import { Icon } from "astro-icon/components";
 
 const allPost = await getCollection("blog", ({ data }) => {
-	return import.meta.env.PROD ? data.draft !== true : true
-})
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
 
-const recentPost = allPost.sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0,6)
+const recentPost = allPost
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 6);
 ---
 
 <Layout>
-	<section class="flex flex-col py-32">
-		<div class="flex flex-col items-center justify-center gap-12">
-			<h1 class="text-6xl font-bold">burogu</h1>
-			<p class="text-lg text-slate-700 font-medium">Astroで適当に作ったブログ</p>
-		</div>
-	</section>
-	<section class="flex flex-col py-12 border-t border-slate-100">
-		<div class="flex flex-row items-center justify-between">
-			<p class="text-2xl font-bold">最近の投稿</p>
-			<a href="/blog" class="text-lg text-slate-700">すべての投稿</a>
-		</div>
-		<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-			{recentPost.map(post => (
-				<BlogPost post={post} />
-			))}
-		</div>
-	</section>
+  <section class="flex flex-col py-32">
+    <div class="flex flex-col items-center justify-center gap-12">
+      <h1 class="text-6xl font-bold">burogu</h1>
+      <p class="text-lg font-medium text-slate-700">
+        Astroで適当に作ったブログ
+      </p>
+    </div>
+  </section>
+  <section class="flex flex-col border-t border-slate-100 py-12">
+    <div class="flex flex-row items-center justify-between">
+      <p class="text-2xl font-bold">最近の投稿</p>
+      <a
+        href="/blog"
+        class="group flex flex-row items-center text-lg text-slate-700"
+      >
+        <span>すべての投稿</span>
+        <Icon
+          name="tabler:chevron-right"
+          class="transition-all duration-150 group-hover:translate-x-1"
+        />
+      </a>
+    </div>
+    <div
+      class="mt-8 grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+    >
+      {recentPost.map((post) => <BlogPost post={post} />)}
+    </div>
+  </section>
 </Layout>
