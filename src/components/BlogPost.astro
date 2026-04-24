@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+
+interface Props {
+    post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<a href={`/blog/${post.id}`} class="flex flex-col border border-slate-200 rounded-md overflow-hidden">
+    { post.data.cover && <Image src={post.data.cover} alt={`${post.data.title}のカバー画像`} class="aspect-video object-cover" /> }
+    <div class="flex flex-col p-4">
+        <p class="text-sm text-slate-500">{post.data.date.toLocaleDateString("ja-jp", { year: "numeric", month: "2-digit", day: "2-digit" })}</p>
+        <h3 class="text-lg font-bold">{post.data.title}</h3>
+        <p class="text-base text-slate-700">{post.data.description}</p>
+    </div>
+</a>

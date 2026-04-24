@@ -1,11 +1,31 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import BlogPost from '@/components/BlogPost.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const allPost = await getCollection("blog", ({ data }) => {
+	return import.meta.env.PROD ? data.draft !== true : true
+})
+
+const recentPost = allPost.sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0,6)
 ---
 
 <Layout>
-	<Welcome />
+	<section class="flex flex-col py-32">
+		<div class="flex flex-col items-center justify-center gap-12">
+			<h1 class="text-6xl font-bold">burogu</h1>
+			<p class="text-lg text-slate-700 font-medium">Astroで適当に作ったブログ</p>
+		</div>
+	</section>
+	<section class="flex flex-col py-12 border-t border-slate-100">
+		<div class="flex flex-row items-center justify-between">
+			<p class="text-2xl font-bold">最近の投稿</p>
+			<a href="/blog" class="text-lg text-slate-700">すべての投稿</a>
+		</div>
+		<div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+			{recentPost.map(post => (
+				<BlogPost post={post} />
+			))}
+		</div>
+	</section>
 </Layout>

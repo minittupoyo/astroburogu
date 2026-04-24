@@ -1,0 +1,36 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog", ({ data }) => {
+        return import.meta.env.PROD ? data.draft !== true : true
+    })
+    return posts.map(post => ({
+        params: { id: post.id },
+        props: { post }
+    }))
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout>
+    <section class="flex flex-col py-12">
+        {post.data.cover && <Image src={post.data.cover} alt={`${post.data.title}のカバー`} class="aspect-video rounded-xl object-center" />}
+        <div class="flex flex-col items-start text-left space-y-4 mt-8">
+            <p class="text-slate-500">{post.data.date.toLocaleDateString("ja-jp")}</p>
+            <h1 class="text-4xl font-bold">{post.data.title}</h1>
+            <p class="text-lg font-medium">{post.data.description}</p>
+        </div>
+    </section>
+    <section class="flex flex-col py-12 border-t border-slate-100">
+        <div class="grid w-full grid-cols-1 md:grid-cols-12 gap-4">
+            <div class="col-span-8 prose min-w-full">
+                <Content />
+            </div>
+        </div>
+    </section>
+</Layout>

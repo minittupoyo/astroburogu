@@ -1,5 +1,10 @@
+---
+import "@/styles/global.css";
+import Header from "@/components/Header.astro";
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -8,16 +13,10 @@
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
 	</head>
-	<body>
-		<slot />
+	<body class="flex flex-col min-h-screen bg-white text-slate-900">
+		<Header />
+		<main class="container mx-auto grow w-full max-w-7xl px-6 pt-16">
+			<slot />
+		</main>
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
