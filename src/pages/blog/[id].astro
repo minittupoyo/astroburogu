@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import TableofContent from "@/components/TableofContent.astro";
 import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
@@ -14,7 +15,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 ---
 
 <Layout>
@@ -38,6 +39,11 @@ const { Content } = await render(post);
     <div class="grid w-full grid-cols-1 gap-4 md:grid-cols-12">
       <div class="prose col-span-8 min-w-full">
         <Content />
+      </div>
+      <div class="col-span-4 hidden md:block">
+        <div class="block sticky top-20">
+          <TableofContent headings={headings} />
+        </div>
       </div>
     </div>
   </section>

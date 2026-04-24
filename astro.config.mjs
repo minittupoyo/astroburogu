@@ -7,6 +7,10 @@ import remarkBreaks from "remark-breaks";
 
 import icon from "astro-icon";
 
+import expressiveCode from "astro-expressive-code";
+
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
@@ -17,5 +21,5 @@ export default defineConfig({
     remarkPlugins: [remarkBreaks],
   },
 
-  integrations: [icon()],
+  integrations: [icon(), expressiveCode(), react()],
 });

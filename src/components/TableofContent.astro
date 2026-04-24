@@ -1,0 +1,34 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+const filteredHeadings = headings.filter(
+  (heading) => heading.depth >= 2 && heading.depth <= 3,
+);
+---
+
+<nav class="p-4">
+  <h2 class="text-lg font-bold mb-2">目次</h2>
+  <ul class="space-y-2">
+    {
+      filteredHeadings.map((h) => (
+        <li class={h.depth === 3 ? "ml-4 text-sm" : "text-base font-medium"}>
+          <a
+            href={`#${h.slug}`}
+            class:list={[
+              "transition-all duration-150 hover:text-slate-700",
+              h.depth === 2 ? "text-slate-700" : "text-slate-500",
+            ]}
+          >
+            {h.text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
