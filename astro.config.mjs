@@ -21,5 +21,16 @@ export default defineConfig({
     remarkPlugins: [remarkBreaks],
   },
 
-  integrations: [icon(), expressiveCode(), react()],
+  integrations: [
+    icon(),
+    expressiveCode({
+      themes: ["catppuccin-latte", "catppuccin-macchiato"],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) => {
+        if (theme.type === "dark") return ".dark";
+        return ":root";
+      }
+    }),
+    react(),
+  ],
 });

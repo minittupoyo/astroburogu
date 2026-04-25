@@ -21,8 +21,8 @@ const filteredHeadings = headings.filter(
           <a
             href={`#${h.slug}`}
             class:list={[
-              "transition-all duration-150 hover:text-slate-700",
-              h.depth === 2 ? "text-slate-700" : "text-slate-500",
+              "transition-all duration-150 hover:text-foreground",
+              h.depth === 2 ? "text-foreground font-semibold" : "text-muted-foreground",
             ]}
           >
             {h.text}
